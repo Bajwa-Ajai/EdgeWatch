@@ -1,0 +1,25 @@
+services:
+  # Redpanda: High-performance, Kafka-compatible broker (No JVM/Zookeeper needed)
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v23.2.1
+    command:
+      - redpanda start --smp 1 --memory 512M --overprovisioned
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+    ports:
+      - "19092:19092"
+      - "8080:8080" # Redpanda Console (UI)
+
+  # TimescaleDB: Postgres optimized for time-series data
+  db:
+    image: timescale/timescaledb:latest-pg15
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+
+  # Grafana: For the dashboard
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"

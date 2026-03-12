@@ -1,4 +1,4 @@
-module github.com/bajwa-ajai-9/edgewatch
+module edgewatch
 
 go 1.26.1
 

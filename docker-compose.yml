@@ -14,7 +14,22 @@ services:
     ports:
       - "8080:8080" # Redpanda HTTP Proxy
       - "19092:19092" # Kafka API (Use this port in your Go/Java code)
-
+  redpanda-setup:
+    image: docker.redpanda.com/redpandadata/redpanda:v23.2.1
+    container_name: redpanda-setup
+    depends_on:
+      - redpanda
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        # Wait for Redpanda to be ready
+        echo "Waiting for Redpanda..."
+        until rpk cluster info --brokers redpanda:9092; do
+          sleep 2
+        done
+        # Create the topic
+        rpk topic create raw-tickers --brokers redpanda:9092
+        echo "Topic 'raw-tickers' created successfully!"
   # Redpanda Console: The Web UI to see your data
   console:
     image: docker.redpanda.com/redpandadata/console:latest
@@ -31,7 +46,7 @@ services:
       - redpanda
 
   # TimescaleDB: Postgres optimized for time-series data
-  db:
+  edgewatch-db:
     image: timescale/timescaledb:latest-pg15
     environment:
       - POSTGRES_PASSWORD=postgres
@@ -43,5 +58,8 @@ services:
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
-      - db
+      - edgewatch-db

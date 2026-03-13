@@ -1,0 +1,9 @@
+apiVersion: 1
+providers:
+  - name: "Edgewatch Dashboards"
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      # This MUST match the internal path from the docker-compose volume above
+      path: /var/lib/grafana/dashboards

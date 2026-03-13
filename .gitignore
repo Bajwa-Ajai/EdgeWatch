@@ -1,0 +1,10 @@
+### VS Code ###
+.vscode/
+
+### STS ###
+.apt_generated
+.DS_Store
+
+consumer/.mvn/
+consumer/mvnw
+consumer/mvnw.cmd

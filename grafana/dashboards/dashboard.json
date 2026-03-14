@@ -22,8 +22,8 @@
   "panels": [
     {
       "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "effwryce9jnr4c"
+        "type": "postgres",
+        "uid": "edgewatch-db-983"
       },
       "description": "Price of bitcoin Wrt to Time",
       "fieldConfig": {

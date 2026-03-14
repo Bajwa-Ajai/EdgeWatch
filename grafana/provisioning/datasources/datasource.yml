@@ -6,9 +6,11 @@ datasources:
     url: edgewatch-db:5432
     database: postgres
     user: postgres
+    isDefault: true
     secureJsonData:
       password: postgres
     jsonData:
+      database: postgres
       sslmode: "disable"
       postgresVersion: 15
       timescaledb: true
